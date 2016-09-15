@@ -14,7 +14,7 @@ Once Ruby is installed, clone the git repository:
   
 Next, to install the dependencies, either use the following command for Ruby gems, or use bundler to install:
 
-  $ gem install datasift activesupport terminal-table
+    $ gem install datasift activesupport terminal-table
 
 OR
 
