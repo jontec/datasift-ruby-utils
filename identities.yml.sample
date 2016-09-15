@@ -1,0 +1,44 @@
+# identities.yml [SAMPLE]
+# Use this file to populate accounts, identities, and indexes for DataSift
+#   to be used by AccountSelector
+
+# Level 1: Include aliases for your accounts (if you have multiple accounts)
+#   username: The username for this account
+#   billing_start: The day of the month on which the billing period begins for this account
+
+# Level 2: Aliases for each of your identities
+#   api_key: The API key associated with this identity
+#   tokens: List of the tokens associated with each identity (generally not necessary unless managing identities)
+#   indexes: Array containing the <alias>: <index ID> for each index owned by the identity
+
+# Usage with AccountSelector, refer to an individual
+
+default:
+  username: datasiftuser
+  admin:
+    api_key: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  primary:
+    api_key: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    tokens:
+      facebook: 5555555555555555|aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    indexes:
+      my_index: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+      my_second_index: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+      my_third_index: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+  client_one:
+    api_key: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+    tokens:
+      facebook: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+    indexes:
+      their_index: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+      their_second_index: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+      their_third_index: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+
+my_special_account:
+  username: specialdatasiftuser
+  admin:
+    api_key: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  data_identity:
+    api_key: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    indexes:
+      global_presence: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
