@@ -15,17 +15,20 @@ class AccountSelector
       raise "No such account #{ account }"
     else
       raise "No username specified for #{ account }" unless username
+      billing_start = @@accounts[account][:billing_start]
     end
 
     auth_hash = @@accounts[account][identity].clone || {}
     aux_hash = {}
     
-    [:tokens, :indexes, :billing_start].each do |key|
+    [:tokens, :indexes].each do |key|
       v = auth_hash.delete(key)
       aux_hash[key] = v if options[:"with_#{ key }"]
     end
 
     auth_hash.merge!(username: username)
+    aux_hash.merge!(billing_start: billing_start) if options[:with_billing_start]
+
     unless aux_hash.empty?
       return auth_hash, aux_hash
     else

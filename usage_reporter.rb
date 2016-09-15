@@ -36,7 +36,7 @@ else
   # TODO: add feature to select arbitrary accounts for reporting from identities.yml
   account ||= :default
   config, options = AccountSelector.select account, :admin, with_billing_start: true
-  billing_period_start = options[:billing_period_start]
+  billing_period_start = options[:billing_start]
 end
 billing_period_start ||= 1
 

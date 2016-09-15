@@ -15,6 +15,7 @@
 
 default:
   username: datasiftuser
+  billing_start: 1
   admin:
     api_key: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
   primary:
