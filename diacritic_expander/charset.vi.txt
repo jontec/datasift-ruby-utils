@@ -1,0 +1,134 @@
+À	capital	a	grave
+Á	capital	a	acute
+Â	capital	a	circumflex
+Ã	capital	a	tilde
+È	capital	e	grave
+É	capital	e	acute
+Ê	capital	e	circumflex
+Ì	capital	i	grave
+Í	capital	i	acute
+Ò	capital	o	grave
+Ó	capital	o	acute
+Ô	capital	o	circumflex
+Õ	capital	o	tilde
+Ù	capital	u	grave
+Ú	capital	u	acute
+Ý	capital	y	acute
+à	small	a	grave
+á	small	a	acute
+â	small	a	circumflex
+ã	small	a	tilde
+è	small	e	grave
+é	small	e	acute
+ê	small	e	circumflex
+ì	small	i	grave
+í	small	i	acute
+ò	small	o	grave
+ó	small	o	acute
+ô	small	o	circumflex
+õ	small	o	tilde
+ù	small	u	grave
+ú	small	u	acute
+ý	small	y	acute
+Ă	capital	a	breve
+ă	small	a	breve
+Đ	capital	d	stroke
+đ	small	d	stroke
+Ĩ	capital	i	tilde
+ĩ	small	i	tilde
+Ũ	capital	u	tilde
+ũ	small	u	tilde
+Ơ	capital	o	horn
+ơ	small	o	horn
+Ư	capital	u	horn
+ư	small	u	horn
+Ạ	capital	a	dot_below
+ạ	small	a	dot_below
+Ả	capital	a	hook_above
+ả	small	a	hook_above
+Ấ	capital	a	acute circumflex
+ấ	small	a	acute circumflex
+Ầ	capital	a	circumflex grave
+ầ	small	a	circumflex grave
+Ẩ	capital	a	circumflex hook_above
+ẩ	small	a	circumflex hook_above
+Ẫ	capital	a	circumflex tilde
+ẫ	small	a	circumflex tilde
+Ậ	capital	a	circumflex dot_below
+ậ	small	a	circumflex dot_below
+Ắ	capital	a	acute breve
+ắ	small	a	acute breve
+Ằ	capital	a	breve grave
+ằ	small	a	breve grave
+Ẳ	capital	a	breve hook_above
+ẳ	small	a	breve hook_above
+Ẵ	capital	a	breve tilde
+ẵ	small	a	breve tilde
+Ặ	capital	a	breve dot_below
+ặ	small	a	breve dot_below
+Ẹ	capital	e	dot_below
+ẹ	small	e	dot_below
+Ẻ	capital	e	hook_above
+ẻ	small	e	hook_above
+Ẽ	capital	e	tilde
+ẽ	small	e	tilde
+Ế	capital	e	acute circumflex
+ế	small	e	acute circumflex
+Ề	capital	e	circumflex grave
+ề	small	e	circumflex grave
+Ể	capital	e	circumflex hook_above
+ể	small	e	circumflex hook_above
+Ễ	capital	e	circumflex tilde
+ễ	small	e	circumflex tilde
+Ệ	capital	e	circumflex dot_below
+ệ	small	e	circumflex dot_below
+Ỉ	capital	i	hook_above
+ỉ	small	i	hook_above
+Ị	capital	i	dot_below
+ị	small	i	dot_below
+Ọ	capital	o	dot_below
+ọ	small	o	dot_below
+Ỏ	capital	o	hook_above
+ỏ	small	o	hook_above
+Ố	capital	o	acute circumflex
+ố	small	o	acute circumflex
+Ồ	capital	o	circumflex grave
+ồ	small	o	circumflex grave
+Ổ	capital	o	circumflex hook_above
+ổ	small	o	circumflex hook_above
+Ỗ	capital	o	circumflex tilde
+ỗ	small	o	circumflex tilde
+Ộ	capital	o	circumflex dot_below
+ộ	small	o	circumflex dot_below
+Ớ	capital	o	acute horn
+ớ	small	o	acute horn
+Ờ	capital	o	grave horn
+ờ	small	o	grave horn
+Ở	capital	o	hook_above horn
+ở	small	o	hook_above horn
+Ỡ	capital	o	horn tilde
+ỡ	small	o	horn tilde
+Ợ	capital	o	dot_below horn
+ợ	small	o	dot_below horn
+Ụ	capital	u	dot_below
+ụ	small	u	dot_below
+Ủ	capital	u	hook_above
+ủ	small	u	hook_above
+Ứ	capital	u	acute horn
+ứ	small	u	acute horn
+Ừ	capital	u	grave horn
+ừ	small	u	grave horn
+Ử	capital	u	hook_above horn
+ử	small	u	hook_above horn
+Ữ	capital	u	horn tilde
+ữ	small	u	horn tilde
+Ự	capital	u	dot_below horn
+ự	small	u	dot_below horn
+Ỳ	capital	y	grave
+ỳ	small	y	grave
+Ỵ	capital	y	dot_below
+ỵ	small	y	dot_below
+Ỷ	capital	y	hook_above
+ỷ	small	y	hook_above
+Ỹ	capital	y	tilde
+ỹ	small	y	tilde
