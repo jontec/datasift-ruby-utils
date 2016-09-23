@@ -7,13 +7,9 @@ These tools are not actively maintained, but we hope you find them useful, if no
 **Table of Contents**
 
 - [Getting Started](#getting-started)
-
 - [Tools](#tools)
-
     - [AccountSelector (class)](#accountselector)
-
     - [Usage Reporter (script)](#usage-reporter)
-
     - [DiacriticExpander (class)](#diacriticexpander)
 
 ## Getting Started
