@@ -12,9 +12,9 @@ These tools are not actively maintained, but we hope you find them useful, if no
 
     - [AccountSelector (class)](#accountselector)
 
-		- [Usage Reporter (script)](#usage-reporter)
+    - [Usage Reporter (script)](#usage-reporter)
 
-		- [DiacriticExpander (class)](#diacriticexpander)
+    - [DiacriticExpander (class)](#diacriticexpander)
 
 ## Getting Started
 
