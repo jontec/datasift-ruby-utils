@@ -1,8 +1,20 @@
 # datasift-ruby-utils
 
-This repository is a collection of tools meant to augment the base DataSift client libraries. Many of the tools here were developed for a specific purpose and are independent of the support and attention to detail afforded both to (a) the primary client libraries and (b) certaintly the broader DataSift platform.
+This repository is a collection of tools meant to augment the base DataSift client libraries for Ruby. Many of the tools here were developed for a specific purpose and are independent of the support and attention to detail afforded both to (a) the primary client libraries and (b) certaintly the broader DataSift platform.
 
 These tools are not actively maintained, but we hope you find them useful, if not in the code, then in the ideas and approaches they illustrate. Give us a shout if you make an improvement that should be shared with the commmunity--we really appreciate it!
+
+**Table of Contents**
+
+- [Getting Started](#getting-started)
+
+- [Tools](#tools)
+
+    - [AccountSelector (class)](#accountselector)
+
+		- [Usage Reporter (script)](#usage-reporter)
+
+		- [DiacriticExpander (class)](#diacriticexpander)
 
 ## Getting Started
 
@@ -49,9 +61,9 @@ config, options = AccountSelector.select :default, :primary, with_indexes: true
 
 ```
 
-### usage_reporter.rb
+### Usage Reporter
 
-This script provides a handy approximation of your current interaction consumption against your monthly allowance. Because it uses the API (therefore subject to redaction) and many other platform limitations, it is not an exact accounting of your consumption. However, for users with primarily medium and large-sized indexes (i.e. greater than 50-100k interactions), results should be rather close.
+This script (usage_reporter.rb) provides a handy approximation of your current interaction consumption against your monthly allowance. Because it uses the API (therefore subject to redaction) and many other platform limitations, it is not an exact accounting of your consumption. However, for users with primarily medium and large-sized indexes (i.e. greater than 50-100k interactions), results should be rather close.
 
 #### Usage
 
@@ -144,3 +156,39 @@ Usage Totals by Index:
 Disclaimer: These totals are approximations only and may not accurately represent interaction totals
   for official billing purposes.
 ```
+### DiacriticExpander
+
+In certain languages, it can be helpful to look for keywords in stories independent of their diacritics or tonal/word markings. For example, real people on Facebook may not choose to write sách (book in Vietnamese), but instead write "sach". However, there is not an easy method for matching both of these other than a regular expression such as "s[aá]ch" or using a keyword list including both ("sach, sách").
+
+Still, both of these methods require significant effort to identify (a) all the possible diacritic alternatives for an individual letter and (b) to compute/list all combinations in the case of a keyword list. DiacriticExpander solves (a) using a unicode table for the language listing all letters bearing diacritics and (b) automating the listing of all possible alternatives. It goes one step further, too, and computes all possible combinations for multiple word phrases with diacritics. The class provides output as either an RE2-compliant regular expression or a fixed keyword list.
+
+DiacriticExpander is packaged as a class so that it can be integrated into other tools, and its functionality is implemented by vi_expander.rb for Vietnamese, which is described in detail below.
+
+#### DiacriticExpander (Class)
+
+(to be documented)
+
+#### vi_expander.rb (executable)
+
+vi_expander.rb simply exposes the functionality of DiacriticExpander for Vietnamese via the command line. Use it without options to see a brief usage summary with examples, and the same are repeated below.
+
+The script requires two arguments along with one optional argument:
+
+* Output type: "regexp" or "keywords" representing the type of output the script will render
+
+* Word or phrase: A word or phrase (e.g. "sach" or "dang so") to be expanded
+
+* Case sensitive (optional): "true" or "false" (default) indicating whether the expander should consider case or generate all possible alternatives.
+
+    Important: for keyword lists, setting case sensitivity to false will generate all capitalization possibilities for the particular word or phrase. If you will be using a case insentive search (e.g. fb.all.content any "all, my, keywords") use lower case and turn on case sensitivity to keep your keyword lists short.
+
+**Generate a regular expression**
+
+    $ ruby vi_expander.rb regexp "sach"
+		"(?i)s[àáâãăạảấầẩẫậắằẳẵặa]ch"
+
+
+**Generate a keyword list**
+
+    $ ruby vi_expander.rb keywords "dang so" true
+		đàng sò, đàng só, đàng sô, đàng sõ, đàng sơ, đàng sọ, đàng sỏ, đàng số, đàng sồ, đàng sổ, đàng sỗ, [...]
