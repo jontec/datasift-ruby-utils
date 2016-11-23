@@ -1,5 +1,5 @@
 require 'yaml'
-require 'active_support/core_ext/hash/keys.rb'
+require 'active_support/core_ext/hash/keys'
 
 class AccountSelector
   @@accounts = {}
@@ -15,7 +15,6 @@ class AccountSelector
       raise "No such account #{ account }"
     else
       raise "No username specified for #{ account }" unless username
-      billing_start = @@accounts[account][:billing_start]
     end
 
     auth_hash = @@accounts[account][identity].clone || {}
@@ -27,13 +26,45 @@ class AccountSelector
     end
 
     auth_hash.merge!(username: username)
-    aux_hash.merge!(billing_start: billing_start) if options[:with_billing_start]
+    [:mongo, :billing_start].each do |key|
+      aux_hash.merge!(key => @@accounts[account][key]) if options[:"with_#{ key }"]
+    end
 
     unless aux_hash.empty?
       return auth_hash, aux_hash
     else
       return auth_hash
     end    
+  end
+
+  ## possible formats
+  ##   identity1 index1 (looks for account: default, identity: identity1, index: index1)
+  ##   identity1 index1 index2 index3 (multiple indexes in account: default)
+  ##   myaccount:identity1 index1 index2 (multiple indexes in account: myaccount)
+  ##   myaccount:identity1 index1 index2 mysecondaccount:identity2 indexA indexB (multiple indexes in account: mysecondaccount)
+  def self.select_from_commandline(account_selectors, options={})
+    account, identity = nil, nil
+    first = true
+    selected_config = {}
+    account_selectors.each do |selector|
+      if first || selector.include?(":")
+        identity, account = selector.split(":").reverse.collect { |s| s.to_sym }
+        account ||= :default
+        config, info = self.select(account, identity, options)
+
+        selected_config[account] ||= {} 
+        selected_config[account][identity] ||= {}
+
+        selected_config[account][identity][:config] = config
+        selected_config[account][identity][:info] = info
+        selected_config[account][identity][:selected_indexes] ||= []
+        first = false
+      else
+        selected_config[account][identity][:selected_indexes] << selector.to_sym
+        next
+      end
+    end
+    return selected_config
   end
 
   def self.select!(*args)
