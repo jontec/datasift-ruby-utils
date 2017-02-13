@@ -23,6 +23,7 @@ require 'active_support'
 require 'active_support/core_ext/hash'
 require 'active_support/number_helper'
 require 'terminal-table'
+require 'csv'
 
 PAGE_LENGTH = 1000
 
@@ -30,8 +31,10 @@ time = Time.now.localtime("-08:00")
 
 unless ARGV.empty?
   config = {}
-  config[:username], config[:api_key], billing_period_start = ARGV
-  billing_period_start = billing_period_start.to_i if billing_period_start
+  config[:username], config[:api_key], billing_period_start, end_date = ARGV
+  if billing_period_start
+    billing_period_start = billing_period_start.match(/\d+-\d+-\d+/) ? billing_period_start : billing_period_start.to_i
+  end
 else
   # TODO: add feature to select arbitrary accounts for reporting from identities.yml
   account ||= :default
@@ -61,14 +64,22 @@ end
 # calculate beginning of billing period
 # TODO: simplify? decrement month by 1 if condition is met. Send both through #find_valid_date
 
-if time.day < billing_period_start
+if billing_period_start.is_a?(String)
+  billing_start_date = Date.parse(billing_period_start)
+elsif time.day < billing_period_start
   billing_start_date = find_valid_date(time.year, time.month - 1, billing_period_start)
 else
   billing_start_date = Date.new(time.year, time.month, billing_period_start)
 end
 billing_start_time = Time.new(billing_start_date.year, billing_start_date.month, billing_start_date.day, 0, 0, 0, "-08:00")
+if end_date
+  end_date = Date.parse(end_date)
+  end_time = Time.new(end_date.year, end_date.month, end_date.day, 0, 0, 0, "-08:00")
+end
 
-puts "[Start] Calculating consumption for the billing period beginning on #{ billing_start_date.to_s }"
+msg = "[Start] Calculating consumption for the period beginning on #{ billing_start_date.to_s }" 
+msg += " and ending on #{ end_date.to_s }" if end_date
+puts msg
 
 identities = {}
 indexes_by_identity = {}
@@ -93,7 +104,7 @@ until page == pages
 
   indexes.each do |index|
     # qualify index based on time
-    next unless (index[:status] == "running" && index[:end].nil?) || (index[:status] == "stopped" && index[:end] > billing_start_time.to_i)
+    next unless ((index[:status] == "running" && index[:end].nil?) || (index[:status] == "stopped" && index[:end] > billing_start_time.to_i)) && (!end_time || index[:start] < end_time.to_i)
     indexes_found += 1
 
     indexes_by_identity[index[:identity_id]] ||= {}
@@ -147,7 +158,8 @@ until page == pages
 
       client = DataSift::Pylon.new(config.merge(:api_key => identity[:api_key]))
       analysis_start = billing_start_time.to_i
-      response = client.analyze('', time_series_params, '', analysis_start, nil, id)
+      analysis_end = end_time.to_i if end_time
+      response = client.analyze('', time_series_params, '', analysis_start, analysis_end, id)
       analyze_count += 1
       print "#{ analyze_count } "
       unless response[:data][:analysis][:redacted]
@@ -180,13 +192,22 @@ puts table
 
 puts "\nUsage Totals by Index:"
 
-table = Terminal::Table.new({ :headings => ["Volume", "Status", "Index Name", "Identity", "Index ID"] }) do |t|
+csv_filename = "usage_report_#{ config[:username] }_#{ billing_start_date.to_s }"
+csv_filename += "_#{ end_date.to_s }" if end_date
+csv = CSV.new(File.new(csv_filename + ".csv", "w"))
+
+headings = ["Volume", "Status", "Index Name", "Identity", "Index ID"]
+csv.add_row headings
+
+table = Terminal::Table.new({ :headings => headings }) do |t|
   indexes_by_volume.keys.sort.reverse.each do |index_volume|
     indexes = indexes_by_volume[index_volume]
     indexes.each do |index|
       identity_name = index[:identity_name] || identities[index[:identity_id]][:label]
       formatted_volume = delimit(index_volume)
-      t.add_row [formatted_volume, index[:status], index[:name], identity_name, index[:id]]
+      row = [formatted_volume, index[:status], index[:name], identity_name, index[:id]]
+      csv.add_row row
+      t.add_row row
     end
   end
 end

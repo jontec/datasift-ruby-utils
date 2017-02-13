@@ -71,7 +71,13 @@ OR
  
     $ ruby usage_reporter.rb jontec <api key> 15
 
+OR
+
+    $ ruby usage_reporter.rb jontec <api key> 2017-02-02 2017-02-13
+
 When invoked with no arguments, the usage reporter will use AccountSelector to populate these values from your identities.yml file. If a billing start date is not specified in either case, it will default to using the 1st of the month.
+
+The third usage example specifies particular start and end dates for consideration, and in this case, you must use the full date for both the start and end dates, not just the number of the month.
 
 NOTE: If you manually specify the API key, please ensure that this is the *account* API key, not the API key for your master identity.
 
