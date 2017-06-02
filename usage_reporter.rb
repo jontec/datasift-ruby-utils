@@ -104,11 +104,14 @@ until page == pages
 
   indexes.each do |index|
     # qualify index based on time
-    next unless ((index[:status] == "running" && index[:end].nil?) || (index[:status] == "stopped" && index[:end] > billing_start_time.to_i)) && (!end_time || index[:start] < end_time.to_i)
+    # next unless ((index[:status] == "running" && index[:end].nil?) || (index[:status] == "stopped" && index[:end] > billing_start_time.to_i)) && (!end_time || index[:start] < end_time.to_i)
     indexes_found += 1
 
     indexes_by_identity[index[:identity_id]] ||= {}
     indexes_by_identity[index[:identity_id]][index[:id]] = index
+    
+    indexes_for_analysis << index[:id]
+    next
     
     if index[:start] >= billing_start_time.to_i
       # index has run only inside the billing period
@@ -134,10 +137,14 @@ identity_client = DataSift::AccountIdentity.new(config)
 # TODO: Cannot query for indexes whose identities are inactive
 
 analyze_count = 0
-time_series_params = { analysis_type: "timeSeries", parameters: { interval: "day" }}
+time_series_params = { analysis_type: "timeSeries", parameters: { interval: "day", offset: -8 }}
 first_analysis_query = true
 
 puts "[Start] Fetching identity information"
+
+csv_filename = "usage_report_#{ config[:username] }_#{ billing_start_date.to_s }"
+csv_filename += "_#{ end_date.to_s }_daily" if end_date
+csv_daily = CSV.new(File.new(csv_filename + ".csv", "w"))
 
 until page == pages
   page += 1
@@ -165,6 +172,9 @@ until page == pages
       unless response[:data][:analysis][:redacted]
         # puts response.inspect
         index_volume = response[:data][:interactions]
+        response[:data][:analysis][:results].each do |day_result|
+          csv_daily.add_row [id, Time.at(day_result[:key]).localtime("-08:00"), day_result[:interactions]]
+        end
         index[:identity_name] = identity[:label]
         indexes_by_volume[index_volume] ||= []
         indexes_by_volume[index_volume] << index
